@@ -21,8 +21,15 @@ public class RelogioServidor {
         try{
             //ativa o servidor e avisa quando estiver esperando por solicitações
             IRelogioServidor iRelogio = new IRelogioServidorImpl();
+            IRelogioServidor iRelogioEscravo = new IRelogioServidorImpl();
+            IRelogioServidor iRelogioEscravo2 = new IRelogioServidorImpl();
+            IRelogioServidor iRelogioEscravo3 = new IRelogioServidorImpl();
             Registry reg = LocateRegistry.createRegistry(9999);
+           // Registry reg2 = LocateRegistry.createRegistry(8080);
             reg.rebind("IRelogioServidorImpl", iRelogio);
+            reg.rebind("IRelogioServidorImpl2", iRelogioEscravo);
+            reg.rebind("IRelogioServidorImpl3", iRelogioEscravo2);
+            reg.rebind("IRelogioServidorImpl4", iRelogioEscravo3);
             System.out.println("Servidor Relogio: " + iRelogio + "pronto.");
             
         }catch(Exception ex){
