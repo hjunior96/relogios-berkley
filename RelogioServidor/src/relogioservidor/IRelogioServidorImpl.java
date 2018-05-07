@@ -21,10 +21,9 @@ public class IRelogioServidorImpl extends UnicastRemoteObject implements IRelogi
    
    public IRelogioServidorImpl() throws RemoteException {
        //Necessário randomizar para impedir que os relógios já iniciem ajustados.
-       int i = (int) (Math.random() * 23);
-       int j = (int) (Math.random() * 59);
+       int j = (int) ((Math.random() +10) * 14 );
        
-       this.horas = (i*60) + j;
+       this.horas = 61 + j;
    }
    
    @Override
@@ -49,9 +48,8 @@ public class IRelogioServidorImpl extends UnicastRemoteObject implements IRelogi
 
     @Override
     public void aleatorio() throws RemoteException {
-       int i = (int) (Math.random() * 23);
-       int j = (int) (Math.random() * 59);
+       int j = (int) ((Math.random() +10) * 14 );
        
-       this.horas = (i*60) + j;
+       this.horas = 61 + j;
     }
 }
