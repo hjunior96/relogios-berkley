@@ -42,23 +42,23 @@ public class RelogioCliente {
 
                 
                 //Colocar outro servidor para testar
-                Registry registry2 = LocateRegistry.getRegistry(9999);
-                IRelogioServidor  e1 = (IRelogioServidor) registry2.lookup("IRelogioServidorImpl");
+                registry = LocateRegistry.getRegistry(9999);
+                IRelogioServidor  e1 = (IRelogioServidor) registry.lookup("IRelogioServidorImpl2");
                 e1.aleatorio();
                 servidores.add(e1);
                 System.out.println("Hora do nó escravo 1: " + e1.getTempo()/60 + ":" + e1.getTempo()%60);
                 
-                /*Registry registry3 = LocateRegistry.getRegistry(9999);
-                IRelogioServidor  e2 = (IRelogioServidor) registry3.lookup("IRelogioServidorImpl");
+                registry = LocateRegistry.getRegistry(9999);
+                IRelogioServidor  e2 = (IRelogioServidor) registry.lookup("IRelogioServidorImpl3");
                 e2.aleatorio();
                 servidores.add(e2);
                 System.out.println("Hora do nó escravo 2: " + e2.getTempo()/60 + ":" + e2.getTempo()%60);
                 
-                Registry registry4 = LocateRegistry.getRegistry(9999);
-                IRelogioServidor  e3 = (IRelogioServidor) registry4.lookup("IRelogioServidorImpl");
+                registry = LocateRegistry.getRegistry(9999);
+                IRelogioServidor  e3 = (IRelogioServidor) registry.lookup("IRelogioServidorImpl4");
                 e3.aleatorio();
                 servidores.add(e3);
-                System.out.println("Hora do nó escravo 3: " + e3.getTempo()/60 + ":" + e3.getTempo()%60);*/
+                System.out.println("Hora do nó escravo 3: " + e3.getTempo()/60 + ":" + e3.getTempo()%60);
             } catch (Exception ex) {
                 System.out.println("Erro: " + ex.getMessage());
             }
@@ -69,7 +69,6 @@ public class RelogioCliente {
             //Percorre os servidores para calcular a diferença de horário entre eles
             for (IRelogioServidor servidor : servidores) {
                 servidor.setDiferenca(servidor.getTempo() - servidores.get(0).getTempo());
-                System.out.println("Tempo servidor: " +servidores.get(0).getTempo() + " Escravo: " + servidor.getTempo());
                 if(servidor.getDiferenca() >= limiteDiferenca)
                     //se for acima do limite, adiciona 1 no contador de relógios que passam do limite
                     relogiosForaDaCurva++;
@@ -80,7 +79,6 @@ public class RelogioCliente {
             
             //Calcula a média usando o total e desconsiderando os relógios com diferenca maior que a permitida
             media = total / (servidores.size()-relogiosForaDaCurva);
-            System.out.println("Média: " + media);
             
             //ajusta os relógios usando a média e a diferença do servidor e coordenador
             for (IRelogioServidor servidor : servidores) {
@@ -88,13 +86,14 @@ public class RelogioCliente {
             }
 
             //Mostra no console o horário ajustado dos relógios
+            int i=0;
             for (IRelogioServidor servidor : servidores) {
+                
                 int parteInteira = servidor.getTempo() / 60;
                 int resto = servidor.getTempo() % 60;
 
-                System.out.println(parteInteira + ":" + resto);
+                System.out.println("Horario ajustado do servidor "+ i++ + ": " + parteInteira + ":" + resto);
             }
-
             //Randomiza os horários novamente para próxima execução
             for (IRelogioServidor servidor : servidores) {
                 servidor.aleatorio();
